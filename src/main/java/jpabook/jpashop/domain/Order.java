@@ -1,6 +1,5 @@
 package jpabook.jpashop.domain;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
