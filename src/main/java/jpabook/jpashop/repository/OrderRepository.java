@@ -22,6 +22,12 @@ public class OrderRepository {
         return em.find(Order.class, id);
     }
 
+    public List<Order> findAll(){
+        return em.createQuery("select o from Order o"
+                ,Order.class)
+                .getResultList();
+    }
+
     public List<Order> findAll(OrderSearch orderSearch){
         return em.createQuery("select o from Order o join o.member m" +
                         " where o.status = :status" +
@@ -30,6 +36,20 @@ public class OrderRepository {
                 .setParameter("name",orderSearch.getMemberName())
                 .setParameter("status",orderSearch.getOrderStatus())
                 .setMaxResults(10)
+                .getResultList();
+    }
+
+    public List<Order> findAllWithFetch() {
+        return em.createQuery("select o from Order o join fetch o.member join fetch o.delivery"
+                ,Order.class)
+                .getResultList();
+    }
+
+    public List<SimpleOrderQueryDto> findAllWithDtos() {
+        return em.createQuery("select " +
+                        "new jpabook.jpashop.repository.SimpleOrderQueryDto(o.id, m.name, o.orderDate, o.status, d.address) " +
+                        "from Order o join o.member m join o.delivery d"
+                ,SimpleOrderQueryDto.class)
                 .getResultList();
     }
 }
