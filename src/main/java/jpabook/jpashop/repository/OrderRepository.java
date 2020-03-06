@@ -52,4 +52,16 @@ public class OrderRepository {
                 ,SimpleOrderQueryDto.class)
                 .getResultList();
     }
+
+	public List<Order> findAllWithFetchDistinct() {
+		return em.createQuery("select distinct o from Order o join fetch o.member join fetch o.delivery join fetch o.orderItems oi join fetch oi.item i"
+                ,Order.class)
+                .getResultList();
+	}
+
+	public List<Order> findAllWithFetchBatch() {
+		return em.createQuery("select distinct o from Order o join fetch o.member join fetch o.delivery"
+                ,Order.class)
+                .getResultList();
+	}
 }
